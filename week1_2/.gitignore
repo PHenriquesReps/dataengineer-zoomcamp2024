@@ -1,4 +1,4 @@
-docker/.ipynb_checkpoints/
+*/.ipynb_checkpoints/
 docker/ny_taxi_postgres_data/
 docker/data_pgadmin/
 docker/dataset/
