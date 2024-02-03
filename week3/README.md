@@ -10,7 +10,7 @@ The goal of orchestration is to streamline and optimize the execution of frequen
 
 # Mage
 
-![Architecture](https://github.com/PHenriquesReps/dataengineering-zoomcamp2024/week3/image.png)
+![Architecture](https://github.com/PHenriquesReps/dataengineer-zoomcamp2024/blob/main/week3/image.png)
 
 What is Mage?
 Is a open-source tool for orchestrating, transfomring, and integrating data.
