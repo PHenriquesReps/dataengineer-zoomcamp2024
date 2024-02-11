@@ -28,18 +28,18 @@ Allows:
 
 ## Core Concepts:
 
-** Project ** 
+**Project** 
 We can have 1 or more projects. Is the overall environment.
 Forms the basis for all the work we can do in Mage.
 Contains the code for all our pipelines, blocks, and other assets.
 
 
-** Pipelines **
+**Pipelines**
 Workflows that perform/execute some operation - for example. extracting, transforming. and loading data from an API.
 Pipelines can contain Blocks (SQL, Python, R) and charts.
 Each Pipeline is represented by a YAML file in the "pipelines" folder of our project.
 
-** Blocks of code ** 
+**Blocks of code** 
 Files that can be executed independently or within a pipeline.
 Together these blocks form the DAGs, that we call pipelines.
  They are reusable, atomic pieces of code that mage is orchestrating, based on the established dependencies.
@@ -52,7 +52,7 @@ Anatomy of a Block:
 3rd - Functions
 4th - Assertion
 
-** Note **: The only thing that gets executed or that will return anything is the code inside the function.
+**Note**: The only thing that gets executed or that will return anything is the code inside the function.
 
 
 After understanding what Mage is and its general capabilities, we started creating ETL pipelines on it.
