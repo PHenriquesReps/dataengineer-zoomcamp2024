@@ -17,7 +17,7 @@ Pre-reqs:
 # services = ['fhv','green','yellow']
 init_url = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/'
 # switch out the bucketname
-BUCKET = os.environ.get("GCP_GCS_BUCKET", "ph-taxi-data")
+BUCKET = os.environ.get("GCP_GCS_BUCKET", "taxi-data-ph")
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "c:/Users/Utilizador/Documents/dataengineer-zoomcamp2024/week3/mage-zoomcamp/dataenginner-zoomcamp-c7acd473c81f.json"
 
@@ -52,21 +52,72 @@ def web_to_gcs(year, service):
         open(file_name, 'wb').write(r.content)
         print(f"Local: {file_name}")
 
-        # read it back into a parquet file
-        df = pd.read_csv(file_name, compression='gzip')
-        file_name = file_name.replace('.csv.gz', '.parquet')
-        df.to_parquet(file_name, engine='pyarrow')
-        print(f"Parquet: {file_name}")
+        green_taxi_dtypes = {
+                'VendorID': pd.Int64Dtype(),
+                'passenger_count': pd.Int64Dtype(),
+                'trip_distance': float,
+                'RatecodeID':pd.Int64Dtype(),
+                'store_and_fwd_flag':str,
+                'PULocationID':pd.Int64Dtype(),
+                'DOLocationID':pd.Int64Dtype(),
+                'payment_type': pd.Int64Dtype(),
+                'fare_amount': float,
+                'extra':float,
+                'mta_tax':float,
+                'tip_amount':float,
+                'tolls_amount':float,
+                'ehail_fee': float,
+                'improvement_surcharge':float,
+                'total_amount':float,
+                'congestion_surcharge':float,
+                'trip_type':pd.Int64Dtype()
+            }
+        
+        yellow_taxi_dtypes = {
+                'VendorID': pd.Int64Dtype(),
+                'passenger_count': pd.Int64Dtype(),
+                'trip_distance': float,
+                'RatecodeID':pd.Int64Dtype(),
+                'store_and_fwd_flag':str,
+                'PULocationID':pd.Int64Dtype(),
+                'DOLocationID':pd.Int64Dtype(),
+                'payment_type': pd.Int64Dtype(),
+                'fare_amount': float,
+                'extra':float,
+                'mta_tax':float,
+                'tip_amount':float,
+                'tolls_amount':float,
+                'improvement_surcharge':float,
+                'total_amount':float,
+                'congestion_surcharge':float
+            }
 
-        # upload it to gcs 
-        upload_to_gcs(BUCKET, f"{service}/{file_name}", file_name)
-        print(f"GCS: {service}/{file_name}")
+        if service == 'green':
+            # read it back into a parquet file
+            df = pd.read_csv(file_name, compression='gzip', dtype=green_taxi_dtypes)
+            file_name = file_name.replace('.csv.gz', '.parquet')
+            df.to_parquet(file_name, engine='pyarrow')
+            print(f"Parquet: {file_name}")
+
+            # upload it to gcs 
+            upload_to_gcs(BUCKET, f"{service}/{file_name}", file_name)
+            print(f"GCS: {service}/{file_name}")
+        else:
+            # read it back into a parquet file
+            df = pd.read_csv(file_name, compression='gzip', dtype=yellow_taxi_dtypes)
+            file_name = file_name.replace('.csv.gz', '.parquet')
+            df.to_parquet(file_name, engine='pyarrow')
+            print(f"Parquet: {file_name}")
+    
+            # upload it to gcs 
+            upload_to_gcs(BUCKET, f"{service}/{file_name}", file_name)
+            print(f"GCS: {service}/{file_name}")
 
 
 web_to_gcs('2019', 'green')
 web_to_gcs('2020', 'green')
 web_to_gcs('2019', 'yellow')
 web_to_gcs('2020', 'yellow')
-web_to_gcs('2019', 'fhv')
+#web_to_gcs('2019', 'fhv')
 
 
