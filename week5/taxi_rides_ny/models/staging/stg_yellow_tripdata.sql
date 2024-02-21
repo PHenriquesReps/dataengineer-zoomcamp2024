@@ -41,7 +41,10 @@ select
 
 from tripdata
 where rn = 1
--- dbt build -m <model.sql> --var 'is_test_run: False'
+
+-- dbt build --select <model.sql> --vars '{'is_test_run': 'False'}'
 {% if var('is_test_run', default=True) %}
-limit 100
+
+    limit 100
+
 {% endif %}
