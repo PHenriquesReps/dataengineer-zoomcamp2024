@@ -8,6 +8,7 @@ sources:
       tables:
         - name: green_taxi
         - name: yellow_taxi
+        - name: fhv_taxi
 
 models:
     - name: stg_green_tripdata
@@ -290,7 +291,46 @@ models:
           description: ""
 
          
-          
+    - name: stg_fhv_tripdata
+      description: ""
+      columns:
+        - name: dispatching_base_num
+          data_type: string
+          description: ""
+
+        - name: affiliated_base_number
+          data_type: string
+          description: ""
+
+        - name: pickup_locationid
+          data_type: int64
+          description: "locationid where the meter was engaged."
+          tests:
+              - relationships:
+                  to: ref('taxi_zone_lookup')
+                  field: locationid
+                  severity: warn
+
+        - name: dropoff_locationid
+          data_type: int64
+          description: "locationid where the meter was engaged."
+          tests:
+              - relationships:
+                  to: ref('taxi_zone_lookup')
+                  field: locationid
+                  severity: warn
+
+        - name: pickup_datetime
+          data_type: timestamp
+          description: ""
+
+        - name: dropoff_datetime
+          data_type: timestamp
+          description: ""
+
+        - name: sr_flag
+          data_type: float64
+          description: ""    
           
 
 
