@@ -91,6 +91,15 @@ def web_to_gcs(year, service):
                 'total_amount':float,
                 'congestion_surcharge':float
             }
+        
+        fhv_taxi_dtypes = {
+                'dispatching_base_num': str,
+                'Affiliated_base_number': str,
+                'SR_Flag':float,
+                'PUlocationID':pd.Int64Dtype(),
+                'DOlocationID':pd.Int64Dtype()
+            }
+
 
         if service == 'green':
             # read it back into a parquet file
@@ -102,22 +111,33 @@ def web_to_gcs(year, service):
             # upload it to gcs 
             upload_to_gcs(BUCKET, f"{service}/{file_name}", file_name)
             print(f"GCS: {service}/{file_name}")
-        else:
+
+        elif service == 'yellow':
             # read it back into a parquet file
             df = pd.read_csv(file_name, compression='gzip', dtype=yellow_taxi_dtypes)
             file_name = file_name.replace('.csv.gz', '.parquet')
             df.to_parquet(file_name, engine='pyarrow')
             print(f"Parquet: {file_name}")
-    
+
+            # upload it to gcs 
+            upload_to_gcs(BUCKET, f"{service}/{file_name}", file_name)
+            print(f"GCS: {service}/{file_name}")
+        
+        else:
+            df = pd.read_csv(file_name, compression='gzip', dtype=fhv_taxi_dtypes)
+            file_name = file_name.replace('.csv.gz', '.parquet')
+            df.to_parquet(file_name, engine='pyarrow')
+            print(f"Parquet: {file_name}")
+
             # upload it to gcs 
             upload_to_gcs(BUCKET, f"{service}/{file_name}", file_name)
             print(f"GCS: {service}/{file_name}")
 
 
-web_to_gcs('2019', 'green')
-web_to_gcs('2020', 'green')
-web_to_gcs('2019', 'yellow')
-web_to_gcs('2020', 'yellow')
-#web_to_gcs('2019', 'fhv')
+#web_to_gcs('2019', 'green')
+#web_to_gcs('2020', 'green')
+#web_to_gcs('2019', 'yellow')
+#web_to_gcs('2020', 'yellow')
+web_to_gcs('2019', 'fhv')
 
 

@@ -1,7 +1,7 @@
 import os
 
 
-def web_to_gcs(year, service):
+def rm_files(year, service):
     for i in range(12):
         
         # sets the month part of the file_name string
@@ -19,7 +19,8 @@ def web_to_gcs(year, service):
 
 
 
-web_to_gcs('2019', 'green')
-web_to_gcs('2020', 'green')
-web_to_gcs('2020', 'yellow')
-web_to_gcs('2019', 'yellow')
+#rm_files('2019', 'green')
+#rm_files('2020', 'green')
+#rm_files('2020', 'yellow')
+#rm_files('2019', 'yellow')
+rm_files('2019', 'fhv')
