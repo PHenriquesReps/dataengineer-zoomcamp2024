@@ -6,6 +6,7 @@
 */terraform/keys/
 */keys
 *.json
+./week6/code/data/*
 
 # TERRAFORM
 
